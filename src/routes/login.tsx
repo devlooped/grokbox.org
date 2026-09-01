@@ -5,8 +5,8 @@ import {
   AUTH0_CLIENT_ID,
   AUTH0_DOMAIN,
   boxReturnUrl,
-  isAllowedReturnTo,
   isJumpHost,
+  loginIntentFromSearch,
 } from "@/lib/box-auth-jump";
 
 export const Route = createFileRoute("/login")({
@@ -19,6 +19,10 @@ type JumpState = {
   boxState: string;
 };
 
+type AdminState = {
+  admin: true;
+};
+
 function BoxAuthJumpPage() {
   const [message, setMessage] = useState("Signing in…");
 
@@ -26,19 +30,23 @@ function BoxAuthJumpPage() {
     let cancelled = false;
 
     void (async () => {
-      const params = new URLSearchParams(window.location.search);
-      const isCallback = params.has("code");
-      const returnTo = params.get("return_to");
-      const boxState = params.get("state");
+      const intent = loginIntentFromSearch(window.location.search);
 
-      if (!window.isSecureContext || !isJumpHost(window.location.hostname)) {
+      if (!window.isSecureContext) {
+        if (!cancelled) {
+          setMessage("Sign-in needs a secure origin.");
+        }
+        return;
+      }
+
+      if (intent.kind === "box" && !isJumpHost(window.location.hostname)) {
         if (!cancelled) {
           setMessage("This page is the grokbox.local sign-in hop.");
         }
         return;
       }
 
-      if (!isCallback && (!isAllowedReturnTo(returnTo) || !boxState)) {
+      if (intent.kind === "invalid") {
         if (!cancelled) {
           setMessage("Sign-in must start from grokbox.local.");
         }
@@ -58,36 +66,49 @@ function BoxAuthJumpPage() {
 
       if (cancelled) return;
 
-      if (isCallback) {
+      if (intent.kind === "callback") {
         const result = await client.handleRedirectCallback();
-        const appState = result.appState as JumpState | undefined;
+        const appState = result.appState as JumpState | AdminState | undefined;
         const token = (await client.getIdTokenClaims())?.__raw;
         window.history.replaceState({}, "", window.location.pathname);
+
         const dest = boxReturnUrl(
-          appState?.returnTo,
+          appState && "returnTo" in appState ? appState.returnTo : undefined,
           token,
-          appState?.boxState,
+          appState && "boxState" in appState ? appState.boxState : undefined,
         );
-        if (!dest) {
-          if (!cancelled) {
-            setMessage("Sign-in did not return to grokbox.local.");
-          }
+        if (dest) {
+          window.location.replace(dest);
           return;
         }
 
-        window.location.replace(dest);
+        if (token) {
+          window.location.replace("/");
+          return;
+        }
+
+        if (!cancelled) {
+          setMessage("Unable to sign in.");
+        }
         return;
       }
 
-      if (!isAllowedReturnTo(returnTo) || !boxState) {
-        if (!cancelled) {
-          setMessage("Sign-in must start from grokbox.local.");
-        }
+      if (intent.kind === "box") {
+        await client.loginWithRedirect({
+          appState: {
+            returnTo: intent.returnTo,
+            boxState: intent.boxState,
+          } satisfies JumpState,
+          authorizationParams: {
+            connection: "google-oauth2",
+            prompt: "select_account",
+          },
+        });
         return;
       }
 
       await client.loginWithRedirect({
-        appState: { returnTo, boxState } satisfies JumpState,
+        appState: { admin: true } satisfies AdminState,
         authorizationParams: {
           connection: "google-oauth2",
           prompt: "select_account",

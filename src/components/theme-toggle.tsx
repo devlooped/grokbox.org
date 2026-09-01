@@ -2,6 +2,16 @@ import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+export const headerIconClass = cn(
+  "relative inline-flex size-8 items-center justify-center rounded-lg border border-border bg-transparent text-fg",
+  "transition-[background-color,color] duration-150 ease-out",
+  "hover:bg-surface hover:text-fg",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40",
+  "disabled:pointer-events-none disabled:opacity-50",
+  "active:scale-[0.96]",
+  "after:absolute after:top-1/2 after:left-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2",
+);
+
 function applyTheme(theme: "dark" | "light") {
   document.documentElement.classList.toggle("dark", theme === "dark");
   try {
@@ -31,15 +41,7 @@ export function ThemeToggle() {
         setIsDark(next === "dark");
         applyTheme(next);
       }}
-      className={cn(
-        "relative inline-flex size-8 items-center justify-center rounded-lg border border-border bg-transparent text-fg",
-        "transition-[background-color,color] duration-150 ease-out",
-        "hover:bg-surface hover:text-fg",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40",
-        "disabled:pointer-events-none disabled:opacity-50",
-        "active:scale-[0.96]",
-        "after:absolute after:top-1/2 after:left-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2",
-      )}
+      className={headerIconClass}
     >
       <span className="relative size-4">
         <Moon

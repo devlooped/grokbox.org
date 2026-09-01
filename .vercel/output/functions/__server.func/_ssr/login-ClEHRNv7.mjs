@@ -2,12 +2,30 @@ import { i as __toESM } from "../_runtime.mjs";
 import { a as require_jsx_runtime, o as require_react } from "../_libs/@radix-ui/react-collection+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as mc } from "../_libs/auth0__auth0-spa-js.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/login-Bb1S9LQE.js
+//#region node_modules/.nitro/vite/services/ssr/assets/login-ClEHRNv7.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 /** Public Auth0 SPA client used by grokbox. Not a secret. */
-var AUTH0_DOMAIN = "grokbox.us.auth0.com";
-var AUTH0_CLIENT_ID = "titd12pdpLdyQo1SpSFhHEH2glDoeIZq";
+var viteEnv = {
+	"BASE_URL": "/",
+	"DEV": false,
+	"MODE": "production",
+	"PROD": true,
+	"SSR": true,
+	"TSS_DEV_SERVER": "false",
+	"TSS_DEV_SSR_STYLES_BASEPATH": "/",
+	"TSS_DEV_SSR_STYLES_ENABLED": "true",
+	"TSS_DISABLE_CSRF_MIDDLEWARE_WARNING": "false",
+	"TSS_INLINE_CSS_ENABLED": "false",
+	"TSS_ROUTER_BASEPATH": "",
+	"TSS_SERVER_FN_BASE": "/_serverFn/",
+	"VITE_AUTH0_CLIENT_ID": "titd12pdpLdyQo1SpSFhHEH2glDoeIZq",
+	"VITE_AUTH0_DOMAIN": "grokbox.us.auth0.com",
+	"VITE_AUTH_ENABLED": "false",
+	"VITE_DEV_SERVER_HOST": "0.0.0.0"
+};
+var AUTH0_DOMAIN = viteEnv.VITE_AUTH0_DOMAIN || "grokbox.us.auth0.com";
+var AUTH0_CLIENT_ID = viteEnv.VITE_AUTH0_CLIENT_ID || "titd12pdpLdyQo1SpSFhHEH2glDoeIZq";
 var JUMP_HOSTS = /* @__PURE__ */ new Set(["grokbox.org", "www.grokbox.org"]);
 var LOOPBACK_HOSTS = /* @__PURE__ */ new Set([
 	"localhost",
@@ -33,6 +51,19 @@ function isAllowedReturnTo(value) {
 	if (url.pathname !== "/api/auth/callback") return false;
 	return BOX_HOSTS.has(url.hostname.toLowerCase());
 }
+function loginIntentFromSearch(search) {
+	const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
+	if (params.has("code")) return { kind: "callback" };
+	const returnTo = params.get("return_to");
+	const boxState = params.get("state");
+	if (!returnTo && !boxState) return { kind: "admin" };
+	if (isAllowedReturnTo(returnTo) && boxState) return {
+		kind: "box",
+		returnTo,
+		boxState
+	};
+	return { kind: "invalid" };
+}
 function postForm(action, fields) {
 	const form = document.createElement("form");
 	form.method = "POST";
@@ -53,15 +84,16 @@ function BoxAuthJumpPage() {
 	(0, import_react.useEffect)(() => {
 		let cancelled = false;
 		(async () => {
-			const params = new URLSearchParams(window.location.search);
-			const isCallback = params.has("code");
-			const returnTo = params.get("return_to");
-			const boxState = params.get("state");
-			if (!window.isSecureContext || !isJumpHost(window.location.hostname)) {
+			const intent = loginIntentFromSearch(window.location.search);
+			if (!window.isSecureContext) {
+				if (!cancelled) setMessage("Sign-in needs a secure origin.");
+				return;
+			}
+			if (intent.kind === "box" && !isJumpHost(window.location.hostname)) {
 				if (!cancelled) setMessage("This page is the grokbox.local sign-in hop.");
 				return;
 			}
-			if (!isCallback && (!isAllowedReturnTo(returnTo) || !boxState)) {
+			if (intent.kind === "invalid") {
 				if (!cancelled) setMessage("Sign-in must start from grokbox.local.");
 				return;
 			}
@@ -76,29 +108,40 @@ function BoxAuthJumpPage() {
 				}
 			});
 			if (cancelled) return;
-			if (isCallback) {
+			if (intent.kind === "callback") {
 				const appState = (await client.handleRedirectCallback()).appState;
 				const token = (await client.getIdTokenClaims())?.__raw;
 				window.history.replaceState({}, "", window.location.pathname);
-				if (!token || !isAllowedReturnTo(appState?.returnTo) || !appState?.boxState) {
-					if (!cancelled) setMessage("Sign-in did not return to grokbox.local.");
+				const boxState = appState && "boxState" in appState ? appState : void 0;
+				if (token && boxState && isAllowedReturnTo(boxState.returnTo) && boxState.boxState) {
+					postForm(boxState.returnTo, {
+						id_token: token,
+						state: boxState.boxState
+					});
 					return;
 				}
-				postForm(appState.returnTo, {
-					id_token: token,
-					state: appState.boxState
+				if (token) {
+					window.location.replace("/");
+					return;
+				}
+				if (!cancelled) setMessage("Unable to sign in.");
+				return;
+			}
+			if (intent.kind === "box") {
+				await client.loginWithRedirect({
+					appState: {
+						returnTo: intent.returnTo,
+						boxState: intent.boxState
+					},
+					authorizationParams: {
+						connection: "google-oauth2",
+						prompt: "select_account"
+					}
 				});
 				return;
 			}
-			if (!isAllowedReturnTo(returnTo) || !boxState) {
-				if (!cancelled) setMessage("Sign-in must start from grokbox.local.");
-				return;
-			}
 			await client.loginWithRedirect({
-				appState: {
-					returnTo,
-					boxState
-				},
+				appState: { admin: true },
 				authorizationParams: {
 					connection: "google-oauth2",
 					prompt: "select_account"

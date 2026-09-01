@@ -1,13 +1,29 @@
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Link } from "@tanstack/react-router";
+import { Shield } from "lucide-react";
+import { headerIconClass, ThemeToggle } from "@/components/theme-toggle";
 
 const tagline = "Always on. Any hardware. Multi-user.";
+
+function AdminSignIn() {
+  return (
+    <Link
+      to="/login"
+      aria-label="Admin sign in"
+      title="Admin"
+      className={headerIconClass}
+    >
+      <Shield className="size-4" strokeWidth={1.75} aria-hidden />
+    </Link>
+  );
+}
 
 export function BrandHeader() {
   return (
     <header className="brand-header relative overflow-hidden border-b border-border text-fg">
       <div className="brand-header-glow" aria-hidden />
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         <ThemeToggle />
+        <AdminSignIn />
       </div>
       <div className="mx-auto flex w-full max-w-xl flex-col items-center px-5 pt-6 pb-6 sm:pt-16 sm:pb-12">
         <h1 className="brand-wordmark flex w-full min-w-0 justify-center">

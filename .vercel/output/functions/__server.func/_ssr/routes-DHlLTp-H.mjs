@@ -1,15 +1,17 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { a as require_jsx_runtime, o as require_react } from "../_libs/@radix-ui/react-collection+[...].mjs";
-import { a as Moon, c as Copy, i as Radio, l as Check, o as MessageCircle, r as Sun, s as Cpu, t as Users } from "../_libs/lucide-react.mjs";
+import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { a as Radio, c as Cpu, i as Shield, l as Copy, o as Moon, r as Sun, s as MessageCircle, t as Users, u as Check } from "../_libs/lucide-react.mjs";
 import { i as Trigger, n as List, r as Root2, t as Content } from "../_libs/radix-ui__react-tabs.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DAyqRdta.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DHlLTp-H.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
 	return twMerge(clsx(inputs));
 }
+var headerIconClass = cn("relative inline-flex size-8 items-center justify-center rounded-lg border border-border bg-transparent text-fg", "transition-[background-color,color] duration-150 ease-out", "hover:bg-surface hover:text-fg", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40", "disabled:pointer-events-none disabled:opacity-50", "active:scale-[0.96]", "after:absolute after:top-1/2 after:left-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2");
 function applyTheme(theme) {
 	document.documentElement.classList.toggle("dark", theme === "dark");
 	try {
@@ -35,7 +37,7 @@ function ThemeToggle() {
 			setIsDark(next === "dark");
 			applyTheme(next);
 		},
-		className: cn("relative inline-flex size-8 items-center justify-center rounded-lg border border-border bg-transparent text-fg", "transition-[background-color,color] duration-150 ease-out", "hover:bg-surface hover:text-fg", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40", "disabled:pointer-events-none disabled:opacity-50", "active:scale-[0.96]", "after:absolute after:top-1/2 after:left-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2"),
+		className: headerIconClass,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 			className: "relative size-4",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Moon, {
@@ -51,6 +53,19 @@ function ThemeToggle() {
 	});
 }
 var tagline = "Always on. Any hardware. Multi-user.";
+function AdminSignIn() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
+		to: "/login",
+		"aria-label": "Admin sign in",
+		title: "Admin",
+		className: headerIconClass,
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Shield, {
+			className: "size-4",
+			strokeWidth: 1.75,
+			"aria-hidden": true
+		})
+	});
+}
 function BrandHeader() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
 		className: "brand-header relative overflow-hidden border-b border-border text-fg",
@@ -59,9 +74,9 @@ function BrandHeader() {
 				className: "brand-header-glow",
 				"aria-hidden": true
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "absolute top-4 right-4 z-10",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeToggle, {})
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "absolute top-4 right-4 z-10 flex items-center gap-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeToggle, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AdminSignIn, {})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "mx-auto flex w-full max-w-xl flex-col items-center px-5 pt-6 pb-6 sm:pt-16 sm:pb-12",

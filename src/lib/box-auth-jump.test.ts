@@ -4,6 +4,7 @@ import {
   boxReturnUrl,
   isAllowedReturnTo,
   isJumpHost,
+  loginIntentFromSearch,
 } from "./box-auth-jump.ts";
 
 describe("box auth jump return_to", () => {
@@ -62,6 +63,39 @@ describe("box auth jump return_to", () => {
     assert.equal(
       boxReturnUrl("https://evil.example/api/auth/callback", "t", "s"),
       null,
+    );
+  });
+});
+
+describe("login intent", () => {
+  it("starts admin sign-in with a bare /login", () => {
+    assert.deepEqual(loginIntentFromSearch(""), { kind: "admin" });
+    assert.deepEqual(loginIntentFromSearch("?"), { kind: "admin" });
+  });
+
+  it("keeps the grokbox.local hop when return_to is valid", () => {
+    assert.deepEqual(
+      loginIntentFromSearch(
+        "?return_to=http://grokbox.local/api/auth/callback&state=abc",
+      ),
+      {
+        kind: "box",
+        returnTo: "http://grokbox.local/api/auth/callback",
+        boxState: "abc",
+      },
+    );
+  });
+
+  it("treats Auth0 callbacks as callbacks", () => {
+    assert.equal(loginIntentFromSearch("?code=x&state=y").kind, "callback");
+  });
+
+  it("rejects a spoofed hop instead of falling through to admin", () => {
+    assert.equal(
+      loginIntentFromSearch(
+        "?return_to=https://evil.example/api/auth/callback&state=abc",
+      ).kind,
+      "invalid",
     );
   });
 });

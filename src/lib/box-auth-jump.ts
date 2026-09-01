@@ -51,3 +51,24 @@ export function boxReturnUrl(
   }).toString();
   return url.toString();
 }
+
+export type LoginIntent =
+  | { kind: "callback" }
+  | { kind: "box"; returnTo: string; boxState: string }
+  | { kind: "admin" }
+  | { kind: "invalid" };
+
+export function loginIntentFromSearch(search: string): LoginIntent {
+  const params = new URLSearchParams(
+    search.startsWith("?") ? search.slice(1) : search,
+  );
+  if (params.has("code")) return { kind: "callback" };
+
+  const returnTo = params.get("return_to");
+  const boxState = params.get("state");
+  if (!returnTo && !boxState) return { kind: "admin" };
+  if (isAllowedReturnTo(returnTo) && boxState) {
+    return { kind: "box", returnTo, boxState };
+  }
+  return { kind: "invalid" };
+}
