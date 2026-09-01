@@ -1,6 +1,11 @@
 /** Public Auth0 SPA client used by grokbox. Not a secret. */
-export const AUTH0_DOMAIN = "grokbox.us.auth0.com";
-export const AUTH0_CLIENT_ID = "titd12pdpLdyQo1SpSFhHEH2glDoeIZq";
+const viteEnv =
+  (import.meta as { env?: Record<string, string | undefined> }).env ?? {};
+
+export const AUTH0_DOMAIN =
+  viteEnv.VITE_AUTH0_DOMAIN || "grokbox.us.auth0.com";
+export const AUTH0_CLIENT_ID =
+  viteEnv.VITE_AUTH0_CLIENT_ID || "titd12pdpLdyQo1SpSFhHEH2glDoeIZq";
 
 const JUMP_HOSTS = new Set(["grokbox.org", "www.grokbox.org"]);
 const LOOPBACK_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
