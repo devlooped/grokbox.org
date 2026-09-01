@@ -4,6 +4,7 @@ import { createAuth0Client } from "@auth0/auth0-spa-js";
 import {
   AUTH0_CLIENT_ID,
   AUTH0_DOMAIN,
+  boxReturnUrl,
   isAllowedReturnTo,
   isJumpHost,
 } from "@/lib/box-auth-jump";
@@ -17,22 +18,6 @@ type JumpState = {
   returnTo: string;
   boxState: string;
 };
-
-function postForm(action: string, fields: Record<string, string>) {
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = action;
-  form.acceptCharset = "UTF-8";
-  for (const [name, value] of Object.entries(fields)) {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  }
-  document.body.appendChild(form);
-  form.submit();
-}
 
 function BoxAuthJumpPage() {
   const [message, setMessage] = useState("Signing in…");
@@ -78,21 +63,19 @@ function BoxAuthJumpPage() {
         const appState = result.appState as JumpState | undefined;
         const token = (await client.getIdTokenClaims())?.__raw;
         window.history.replaceState({}, "", window.location.pathname);
-        if (
-          !token ||
-          !isAllowedReturnTo(appState?.returnTo) ||
-          !appState?.boxState
-        ) {
+        const dest = boxReturnUrl(
+          appState?.returnTo,
+          token,
+          appState?.boxState,
+        );
+        if (!dest) {
           if (!cancelled) {
             setMessage("Sign-in did not return to grokbox.local.");
           }
           return;
         }
 
-        postForm(appState.returnTo, {
-          id_token: token,
-          state: appState.boxState,
-        });
+        window.location.replace(dest);
         return;
       }
 

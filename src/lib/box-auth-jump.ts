@@ -33,3 +33,21 @@ export function isAllowedReturnTo(
   if (url.pathname !== "/api/auth/callback") return false;
   return BOX_HOSTS.has(url.hostname.toLowerCase());
 }
+
+/** HTTPS grokbox.org cannot POST to http://grokbox.local (Chrome insecure-form interstitial). Land on the box with the token in the fragment instead. */
+export function boxReturnUrl(
+  returnTo: string | null | undefined,
+  idToken: string | null | undefined,
+  boxState: string | null | undefined,
+): string | null {
+  if (!isAllowedReturnTo(returnTo) || !idToken || !boxState) {
+    return null;
+  }
+
+  const url = new URL(returnTo);
+  url.hash = new URLSearchParams({
+    id_token: idToken,
+    state: boxState,
+  }).toString();
+  return url.toString();
+}

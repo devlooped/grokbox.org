@@ -1,6 +1,10 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { isAllowedReturnTo, isJumpHost } from "./box-auth-jump.ts";
+import {
+  boxReturnUrl,
+  isAllowedReturnTo,
+  isJumpHost,
+} from "./box-auth-jump.ts";
 
 describe("box auth jump return_to", () => {
   it("allows grokbox.local and loopback callbacks", () => {
@@ -37,5 +41,27 @@ describe("box auth jump return_to", () => {
     assert.equal(isJumpHost("grokbox.org"), true);
     assert.equal(isJumpHost("www.grokbox.org"), true);
     assert.equal(isJumpHost("grokbox.local"), false);
+  });
+
+  it("returns to the box with the token in the fragment", () => {
+    const url = boxReturnUrl(
+      "http://grokbox.local/api/auth/callback",
+      "header.payload.sig",
+      "abc",
+    );
+    assert.ok(url);
+    const parsed = new URL(url);
+    assert.equal(parsed.search, "");
+    assert.equal(parsed.pathname, "/api/auth/callback");
+    const hash = new URLSearchParams(parsed.hash.slice(1));
+    assert.equal(hash.get("id_token"), "header.payload.sig");
+    assert.equal(hash.get("state"), "abc");
+  });
+
+  it("does not build a return URL for an open redirect", () => {
+    assert.equal(
+      boxReturnUrl("https://evil.example/api/auth/callback", "t", "s"),
+      null,
+    );
   });
 });
