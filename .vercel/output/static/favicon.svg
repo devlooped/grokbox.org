@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 556 539" fill="none" role="img" aria-label="grokbox">
+  <title>grokbox</title>
+  <defs>
+    <linearGradient id="gb-arc" gradientUnits="userSpaceOnUse" x1="298" y1="286" x2="452" y2="440">
+      <stop offset="0" stop-color="#f4f4f4"/>
+      <stop offset="0.5" stop-color="#b8b8ba"/>
+      <stop offset="1" stop-color="#909092"/>
+    </linearGradient>
+    <linearGradient id="gb-stem" gradientUnits="userSpaceOnUse" x1="174.818" y1="373.822" x2="386.623" y2="161.618">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#d4d4d6"/>
+      <stop offset="1" stop-color="#8e8e90"/>
+    </linearGradient>
+    <linearGradient id="gb-tick-bl" gradientUnits="userSpaceOnUse" x1="28" y1="477" x2="61" y2="510">
+      <stop offset="0" stop-color="#f3f3f3"/>
+      <stop offset="1" stop-color="#89898b"/>
+    </linearGradient>
+    <linearGradient id="gb-tick-tr" gradientUnits="userSpaceOnUse" x1="493" y1="27" x2="526" y2="60">
+      <stop offset="0" stop-color="#f9f9f9"/>
+      <stop offset="1" stop-color="#9b9b9d"/>
+    </linearGradient>
+  </defs>
+  <path d="M78.165 413.053 A247.8 247.8 0 0 1 421.424 63.75 A20.864 20.864 0 0 1 424.291 92.481 L409.047 110.33 A20.864 20.864 0 0 1 378.893 113.579 A182.6 182.6 0 0 0 127.245 369.658 A20.864 20.864 0 0 1 124.522 399.864 L106.943 415.417 A20.864 20.864 0 0 1 78.165 413.053 Z" fill="#ffffff"/>
+  <path d="M480.694 124.063 A247.8 247.8 0 0 1 139.504 471.261 A20.864 20.864 0 0 1 135.637 442.647 L150.248 424.277 A20.864 20.864 0 0 1 180.27 419.977 A182.6 182.6 0 0 0 430.13 165.718 A20.864 20.864 0 0 1 433.905 135.626 L452.017 120.696 A20.864 20.864 0 0 1 480.694 124.063 Z" fill="url(#gb-arc)"/>
+  <path d="M393.953 199.904 L213.118 381.08 A21.92 21.92 0 0 1 182.119 381.109 L167.517 366.535 A21.92 21.92 0 0 1 167.488 335.536 L348.323 154.36 A21.92 21.92 0 0 1 379.322 154.331 L393.924 168.905 A21.92 21.92 0 0 1 393.953 199.904 Z" fill="url(#gb-stem)"/>
+  <path d="M81.517 488.686 L39.677 530.516 A15.674 15.674 0 0 1 17.511 530.513 L7.081 520.081 A15.674 15.674 0 0 1 7.083 497.914 L48.923 456.084 A15.674 15.674 0 0 1 71.089 456.087 L81.519 466.519 A15.674 15.674 0 0 1 81.517 488.686 Z" fill="url(#gb-tick-bl)"/>
+  <path d="M546.633 39.406 L506.422 80.762 A15.82 15.82 0 0 1 484.051 81.076 L473.375 70.696 A15.82 15.82 0 0 1 473.062 48.325 L513.273 6.969 A15.82 15.82 0 0 1 535.644 6.655 L546.32 17.035 A15.82 15.82 0 0 1 546.633 39.406 Z" fill="url(#gb-tick-tr)"/>
+</svg>

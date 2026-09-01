@@ -1,0 +1,3 @@
+- kzu.grok.me personal page data refreshed from live sources (GitHub/NuGet/X/blog) on 2026-08-05; main @ 7382e3f [2026-08-05]
+- Grok Computer project chat is NOT the same filesystem as App Builder /workspace [2026-08-05]
+- Truco-related files (artifacts/truco, PLAN.md, truco-preview.png) deleted from this project [2026-08-05]

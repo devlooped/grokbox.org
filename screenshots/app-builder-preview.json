@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "grokbox",
+      "hasCanvas": false,
+      "bodyTextLen": 1288,
+      "bodyTextHash": "d8e39ba7b6b17ef0eb74cc687a7fc61575903871fe8d89c5ea21a1e41ac0f5b6",
+      "bodyTextPrefix": "grokbox Run grokbox ALWAYS ON. ANY HARDWARE. MULTI-USER. Your ow",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "grokbox",
+      "hasCanvas": false,
+      "bodyTextLen": 1288,
+      "bodyTextHash": "d8e39ba7b6b17ef0eb74cc687a7fc61575903871fe8d89c5ea21a1e41ac0f5b6",
+      "bodyTextPrefix": "grokbox Run grokbox ALWAYS ON. ANY HARDWARE. MULTI-USER. Your ow",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

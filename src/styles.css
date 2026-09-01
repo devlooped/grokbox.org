@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/outfit";
+
+@theme {
+  --color-bg: #050505;
+  --color-fg: #f4f4f4;
+  --color-muted: #8d8d8d;
+  --color-subtle: #6a6a6a;
+  --color-surface: #121212;
+  --color-elevated: #262626;
+  --color-accent: #e8e8e8;
+  --color-accent-fg: #050505;
+  --color-border: color-mix(in oklab, var(--color-fg) 10%, transparent);
+  --color-glow: #70d6c8;
+
+  --font-sans: "Geist Variable", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-brand: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --text-display: clamp(2.75rem, 1.6rem + 5vw, 4.75rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.045em;
+  --text-title: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+  --text-title--line-height: 1.25;
+  --text-body: 1rem;
+  --text-body--line-height: 1.55;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.22em;
+
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1.25rem;
+
+  --shadow-frame: 0 0 0 1px color-mix(in oklab, var(--color-fg) 10%, transparent);
+  --shadow-frame-hover: 0 0 0 1px color-mix(in oklab, var(--color-fg) 18%, transparent);
+  --shadow-command:
+    0 0 0 1px color-mix(in oklab, var(--color-glow) 55%, transparent),
+    0 0 22px color-mix(in oklab, var(--color-glow) 22%, transparent);
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-emphasis: 700ms;
+  --motion-stagger: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-y-medium: 10px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+.hero-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 0%,
+    rgb(255 255 255 / 0.045),
+    transparent 55%
+  );
+}
+
+.brand-wordmark {
+  font-family: var(--font-brand);
+  line-height: 1;
+  overflow: visible;
+  padding-bottom: 0.18em;
+  background-image: linear-gradient(
+    90deg,
+    var(--color-fg) 0%,
+    #e8e8e8 38%,
+    #bdbdbd 72%,
+    #8d8d8d 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.brand-mark {
+  mix-blend-mode: screen;
+}
+
+.command-glow {
+  box-shadow: var(--shadow-command);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--motion-y-medium));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-item {
+  opacity: 0;
+  animation: rise var(--motion-emphasis) var(--ease-smooth-out) forwards;
+}
+
+.hero-item:nth-child(1) {
+  animation-delay: calc(var(--motion-stagger) * 1);
+}
+.hero-item:nth-child(2) {
+  animation-delay: calc(var(--motion-stagger) * 2);
+}
+.hero-item:nth-child(3) {
+  animation-delay: calc(var(--motion-stagger) * 3);
+}
+.hero-item:nth-child(4) {
+  animation-delay: calc(var(--motion-stagger) * 4);
+}
+.hero-item:nth-child(5) {
+  animation-delay: calc(var(--motion-stagger) * 5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-item {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
