@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Check, Copy, Cpu, MessageCircle, Radio, Users } from "lucide-react";
+import { BrandHeader } from "@/components/brand-header";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -61,54 +62,18 @@ const steps = [
 
 function Home() {
   return (
-    <main className="relative min-h-dvh overflow-x-hidden bg-bg text-fg">
-      <div className="hero-glow" aria-hidden="true" />
-
-      <header className="relative z-10 mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5 sm:px-8">
-        <a href="#top" className="flex items-center gap-2.5">
-          <img
-            src="/logo.svg"
-            alt=""
-            width={28}
-            height={28}
-            className="brand-mark size-7"
-          />
-          <span className="font-brand text-lg font-semibold tracking-tight">
-            grokbox
-          </span>
-        </a>
-        <a
-          href="#run"
-          className="inline-flex h-11 items-center rounded-md bg-fg px-4 text-sm font-medium text-bg transition-colors duration-150 ease-out hover:bg-accent active:scale-[0.96]"
-        >
-          Run
-        </a>
-      </header>
+    <main className="min-h-dvh overflow-x-hidden bg-bg text-fg">
+      <BrandHeader />
 
       <section
-        id="top"
-        className="relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-5 pb-16 pt-10 text-center sm:px-8 sm:pt-16"
+        id="run"
+        className="mx-auto flex w-full max-w-3xl flex-col items-center px-5 pb-16 pt-10 text-center sm:px-8 sm:pt-12"
       >
-        <img
-          src="/logo.svg"
-          alt=""
-          width={88}
-          height={88}
-          className="hero-item brand-mark size-16 sm:size-20"
-        />
-        <h1 className="hero-item brand-wordmark mt-6 font-brand text-display font-semibold">
-          grokbox
-        </h1>
-        <p className="hero-item mt-4 flex items-center gap-3 font-sans text-label font-medium uppercase text-muted">
-          <span className="hidden h-px w-12 bg-border sm:block" aria-hidden />
-          Always on. Any hardware. Multi-user.
-          <span className="hidden h-px w-12 bg-border sm:block" aria-hidden />
-        </p>
-        <p className="hero-item mt-6 max-w-md text-pretty text-body text-muted">
+        <p className="hero-item max-w-md text-pretty text-body text-muted">
           Your own Grok, running on your network. Pair WhatsApp so everyone in
           the house can talk to it.
         </p>
-        <div id="run" className="hero-item mt-10 w-full max-w-md scroll-mt-8">
+        <div className="hero-item mt-10 w-full max-w-md scroll-mt-8">
           <CopyCommand command={COMMAND} />
           <p className="mt-3 text-sm text-subtle">
             One evergreen command. Downloads, runs, and stays up to date. No
@@ -120,12 +85,12 @@ function Home() {
 
       <section
         id="ndx"
-        className="relative z-10 mx-auto w-full max-w-5xl scroll-mt-8 px-5 pb-20 sm:px-8"
+        className="mx-auto w-full max-w-5xl scroll-mt-8 px-5 pb-20 sm:px-8"
       >
         <NdxInstallPanel />
       </section>
 
-      <section className="relative z-10 mx-auto grid w-full max-w-5xl gap-3 px-5 pb-20 sm:grid-cols-3 sm:px-8">
+      <section className="mx-auto grid w-full max-w-5xl gap-3 px-5 pb-20 sm:grid-cols-3 sm:px-8">
         {features.map((feature) => (
           <article
             key={feature.title}
@@ -146,7 +111,7 @@ function Home() {
         ))}
       </section>
 
-      <section className="relative z-10 mx-auto w-full max-w-5xl px-5 pb-20 sm:px-8">
+      <section className="mx-auto w-full max-w-5xl px-5 pb-20 sm:px-8">
         <p className="font-sans text-label font-medium uppercase text-subtle">
           How it works
         </p>
@@ -165,7 +130,7 @@ function Home() {
         </ol>
       </section>
 
-      <section className="relative z-10 mx-auto w-full max-w-5xl px-5 pb-24 sm:px-8">
+      <section className="mx-auto w-full max-w-5xl px-5 pb-24 sm:px-8">
         <div className="rounded-xl bg-surface px-6 py-8 shadow-frame sm:px-8">
           <div className="flex items-start gap-3">
             <MessageCircle
@@ -186,7 +151,7 @@ function Home() {
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border">
+      <footer className="border-t border-border">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-8 text-sm text-subtle sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>A Devlooped project.</p>
           <p>MIT · OSMF</p>

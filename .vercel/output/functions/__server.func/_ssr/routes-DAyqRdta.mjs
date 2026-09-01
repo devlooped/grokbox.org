@@ -1,14 +1,109 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { a as require_jsx_runtime, o as require_react } from "../_libs/@radix-ui/react-collection+[...].mjs";
-import { a as Cpu, i as MessageCircle, o as Copy, r as Radio, s as Check, t as Users } from "../_libs/lucide-react.mjs";
+import { a as Moon, c as Copy, i as Radio, l as Check, o as MessageCircle, r as Sun, s as Cpu, t as Users } from "../_libs/lucide-react.mjs";
 import { i as Trigger, n as List, r as Root2, t as Content } from "../_libs/radix-ui__react-tabs.mjs";
 import { t as clsx } from "../_libs/clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-D6y6dvFk.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DAyqRdta.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
 	return twMerge(clsx(inputs));
+}
+function applyTheme(theme) {
+	document.documentElement.classList.toggle("dark", theme === "dark");
+	try {
+		localStorage.setItem("theme", theme);
+	} catch {}
+	const meta = document.querySelector("meta[name=\"theme-color\"]");
+	if (meta) meta.setAttribute("content", theme === "light" ? "#ffffff" : "#000000");
+}
+function ThemeToggle() {
+	const [mounted, setMounted] = (0, import_react.useState)(false);
+	const [isDark, setIsDark] = (0, import_react.useState)(false);
+	(0, import_react.useEffect)(() => {
+		setMounted(true);
+		setIsDark(document.documentElement.classList.contains("dark"));
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+		type: "button",
+		"aria-pressed": isDark,
+		"aria-label": isDark ? "Switch to light mode" : "Switch to dark mode",
+		disabled: !mounted,
+		onClick: () => {
+			const next = isDark ? "light" : "dark";
+			setIsDark(next === "dark");
+			applyTheme(next);
+		},
+		className: cn("relative inline-flex size-8 items-center justify-center rounded-lg border border-border bg-transparent text-fg", "transition-[background-color,color] duration-150 ease-out", "hover:bg-surface hover:text-fg", "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40", "disabled:pointer-events-none disabled:opacity-50", "active:scale-[0.96]", "after:absolute after:top-1/2 after:left-1/2 after:size-11 after:-translate-x-1/2 after:-translate-y-1/2"),
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+			className: "relative size-4",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Moon, {
+				className: cn("absolute inset-0 size-4 transition-[opacity,filter,transform] duration-300 ease-[cubic-bezier(0.2,0,0,1)]", isDark ? "scale-100 opacity-100 blur-none" : "scale-[0.25] opacity-0 blur-[4px]"),
+				strokeWidth: 1.75,
+				"aria-hidden": true
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sun, {
+				className: cn("absolute inset-0 size-4 transition-[opacity,filter,transform] duration-300 ease-[cubic-bezier(0.2,0,0,1)]", isDark ? "scale-[0.25] opacity-0 blur-[4px]" : "scale-100 opacity-100 blur-none"),
+				strokeWidth: 1.75,
+				"aria-hidden": true
+			})]
+		})
+	});
+}
+var tagline = "Always on. Any hardware. Multi-user.";
+function BrandHeader() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
+		className: "brand-header relative overflow-hidden border-b border-border text-fg",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "brand-header-glow",
+				"aria-hidden": true
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "absolute top-4 right-4 z-10",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeToggle, {})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mx-auto flex w-full max-w-xl flex-col items-center px-5 pt-6 pb-6 sm:pt-16 sm:pb-12",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
+					className: "brand-wordmark flex w-full min-w-0 justify-center",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "sr-only",
+							children: "grokbox"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: "/wordmark.svg",
+							alt: "",
+							width: 321,
+							height: 96,
+							className: "hidden h-10 w-auto max-w-full dark:block sm:h-[4.75rem]"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: "/wordmark-light.svg",
+							alt: "",
+							width: 321,
+							height: 96,
+							className: "h-10 w-auto max-w-full dark:hidden sm:h-[4.75rem]"
+						})
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+					className: "brand-tagline mt-4 flex w-full max-w-lg items-center gap-3 text-center text-[0.58rem] font-medium tracking-[0.22em] text-muted uppercase sm:mt-6 sm:text-[0.62rem] sm:tracking-[0.28em]",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "h-px flex-1 bg-border",
+							"aria-hidden": true
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: tagline }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "h-px flex-1 bg-border",
+							"aria-hidden": true
+						})
+					]
+				})]
+			})
+		]
+	});
 }
 var COMMAND = "ndx grokbox";
 var NDX_TABS = [{
@@ -56,91 +151,38 @@ var steps = [
 ];
 function Home() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-		className: "relative min-h-dvh overflow-x-hidden bg-bg text-fg",
+		className: "min-h-dvh overflow-x-hidden bg-bg text-fg",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "hero-glow",
-				"aria-hidden": "true"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", {
-				className: "relative z-10 mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5 sm:px-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-					href: "#top",
-					className: "flex items-center gap-2.5",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-						src: "/logo.svg",
-						alt: "",
-						width: 28,
-						height: 28,
-						className: "brand-mark size-7"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "font-brand text-lg font-semibold tracking-tight",
-						children: "grokbox"
-					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-					href: "#run",
-					className: "inline-flex h-11 items-center rounded-md bg-fg px-4 text-sm font-medium text-bg transition-colors duration-150 ease-out hover:bg-accent active:scale-[0.96]",
-					children: "Run"
-				})]
-			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrandHeader, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-				id: "top",
-				className: "relative z-10 mx-auto flex w-full max-w-3xl flex-col items-center px-5 pb-16 pt-10 text-center sm:px-8 sm:pt-16",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-						src: "/logo.svg",
-						alt: "",
-						width: 88,
-						height: 88,
-						className: "hero-item brand-mark size-16 sm:size-20"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-						className: "hero-item brand-wordmark mt-6 font-brand text-display font-semibold",
-						children: "grokbox"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-						className: "hero-item mt-4 flex items-center gap-3 font-sans text-label font-medium uppercase text-muted",
+				id: "run",
+				className: "mx-auto flex w-full max-w-3xl flex-col items-center px-5 pb-16 pt-10 text-center sm:px-8 sm:pt-12",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "hero-item max-w-md text-pretty text-body text-muted",
+					children: "Your own Grok, running on your network. Pair WhatsApp so everyone in the house can talk to it."
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "hero-item mt-10 w-full max-w-md scroll-mt-8",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CopyCommand, { command: COMMAND }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						className: "mt-3 text-sm text-subtle",
 						children: [
+							"One evergreen command. Downloads, runs, and stays up to date. No .NET. Then open",
+							" ",
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "hidden h-px w-12 bg-border sm:block",
-								"aria-hidden": true
+								className: "font-mono text-fg",
+								children: "grokbox.local"
 							}),
-							"Always on. Any hardware. Multi-user.",
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "hidden h-px w-12 bg-border sm:block",
-								"aria-hidden": true
-							})
+							"."
 						]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "hero-item mt-6 max-w-md text-pretty text-body text-muted",
-						children: "Your own Grok, running on your network. Pair WhatsApp so everyone in the house can talk to it."
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						id: "run",
-						className: "hero-item mt-10 w-full max-w-md scroll-mt-8",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CopyCommand, { command: COMMAND }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							className: "mt-3 text-sm text-subtle",
-							children: [
-								"One evergreen command. Downloads, runs, and stays up to date. No .NET. Then open",
-								" ",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "font-mono text-fg",
-									children: "grokbox.local"
-								}),
-								"."
-							]
-						})]
-					})
-				]
+					})]
+				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 				id: "ndx",
-				className: "relative z-10 mx-auto w-full max-w-5xl scroll-mt-8 px-5 pb-20 sm:px-8",
+				className: "mx-auto w-full max-w-5xl scroll-mt-8 px-5 pb-20 sm:px-8",
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(NdxInstallPanel, {})
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-				className: "relative z-10 mx-auto grid w-full max-w-5xl gap-3 px-5 pb-20 sm:grid-cols-3 sm:px-8",
+				className: "mx-auto grid w-full max-w-5xl gap-3 px-5 pb-20 sm:grid-cols-3 sm:px-8",
 				children: features.map((feature) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
 					className: "rounded-xl bg-surface px-6 py-6 shadow-frame",
 					children: [
@@ -161,7 +203,7 @@ function Home() {
 				}, feature.title))
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-				className: "relative z-10 mx-auto w-full max-w-5xl px-5 pb-20 sm:px-8",
+				className: "mx-auto w-full max-w-5xl px-5 pb-20 sm:px-8",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "font-sans text-label font-medium uppercase text-subtle",
 					children: "How it works"
@@ -184,7 +226,7 @@ function Home() {
 				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-				className: "relative z-10 mx-auto w-full max-w-5xl px-5 pb-24 sm:px-8",
+				className: "mx-auto w-full max-w-5xl px-5 pb-24 sm:px-8",
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "rounded-xl bg-surface px-6 py-8 shadow-frame sm:px-8",
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -204,7 +246,7 @@ function Home() {
 				})
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
-				className: "relative z-10 border-t border-border",
+				className: "border-t border-border",
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-8 text-sm text-subtle sm:flex-row sm:items-center sm:justify-between sm:px-8",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "A Devlooped project." }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "MIT · OSMF" })]

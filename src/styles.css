@@ -2,17 +2,19 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/outfit";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
-  --color-bg: #050505;
-  --color-fg: #f4f4f4;
-  --color-muted: #8d8d8d;
-  --color-subtle: #6a6a6a;
-  --color-surface: #121212;
-  --color-elevated: #262626;
-  --color-accent: #e8e8e8;
-  --color-accent-fg: #050505;
+  --color-bg: #ffffff;
+  --color-fg: #141414;
+  --color-muted: #737373;
+  --color-subtle: #8a8a8a;
+  --color-surface: #f5f5f5;
+  --color-elevated: #ffffff;
+  --color-accent: #1a1a1a;
+  --color-accent-fg: #ffffff;
   --color-border: color-mix(in oklab, var(--color-fg) 10%, transparent);
-  --color-glow: #70d6c8;
+  --color-glow: #2a9d8f;
 
   --font-sans: "Geist Variable", "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-brand: "Outfit Variable", "Outfit", ui-sans-serif, system-ui, sans-serif;
@@ -36,8 +38,8 @@
   --shadow-frame: 0 0 0 1px color-mix(in oklab, var(--color-fg) 10%, transparent);
   --shadow-frame-hover: 0 0 0 1px color-mix(in oklab, var(--color-fg) 18%, transparent);
   --shadow-command:
-    0 0 0 1px color-mix(in oklab, var(--color-glow) 55%, transparent),
-    0 0 22px color-mix(in oklab, var(--color-glow) 22%, transparent);
+    0 0 0 1px color-mix(in oklab, var(--color-glow) 45%, transparent),
+    0 0 18px color-mix(in oklab, var(--color-glow) 18%, transparent);
 
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-emphasis: 700ms;
@@ -53,6 +55,26 @@
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--color-bg);
     color: var(--color-fg);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+    --color-bg: #050505;
+    --color-fg: #f4f4f4;
+    --color-muted: #8d8d8d;
+    --color-subtle: #6a6a6a;
+    --color-surface: #121212;
+    --color-elevated: #262626;
+    --color-accent: #e8e8e8;
+    --color-accent-fg: #050505;
+    --color-border: color-mix(in oklab, var(--color-fg) 10%, transparent);
+    --color-glow: #70d6c8;
+    --shadow-frame: 0 0 0 1px color-mix(in oklab, var(--color-fg) 10%, transparent);
+    --shadow-frame-hover: 0 0 0 1px color-mix(in oklab, var(--color-fg) 18%, transparent);
+    --shadow-command:
+      0 0 0 1px color-mix(in oklab, var(--color-glow) 55%, transparent),
+      0 0 22px color-mix(in oklab, var(--color-glow) 22%, transparent);
   }
 
   h1,
@@ -71,10 +93,61 @@
   }
 }
 
+.brand-header {
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 38%,
+    rgb(248 248 248) 0%,
+    rgb(242 242 242) 52%,
+    #fff 100%
+  );
+}
+
+.dark .brand-header {
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 38%,
+    rgb(22 22 22) 0%,
+    rgb(5 5 5) 52%,
+    #000 100%
+  );
+}
+
+.brand-header-glow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgb(0 0 0 / 0.04), transparent 42%);
+}
+
+.dark .brand-header-glow {
+  background: radial-gradient(
+    circle at 50% 30%,
+    rgb(255 255 255 / 0.045),
+    transparent 42%
+  );
+}
+
+.brand-wordmark {
+  line-height: 0;
+  overflow: visible;
+  animation: brand-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+
+.brand-tagline {
+  animation: brand-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
+}
+
 .hero-glow {
   pointer-events: none;
   position: absolute;
   inset: 0;
+  background: radial-gradient(
+    ellipse 70% 50% at 50% 0%,
+    rgb(0 0 0 / 0.04),
+    transparent 55%
+  );
+}
+
+.dark .hero-glow {
   background: radial-gradient(
     ellipse 70% 50% at 50% 0%,
     rgb(255 255 255 / 0.045),
@@ -82,30 +155,29 @@
   );
 }
 
-.brand-wordmark {
-  font-family: var(--font-brand);
-  line-height: 1;
-  overflow: visible;
-  padding-bottom: 0.18em;
-  background-image: linear-gradient(
-    90deg,
-    var(--color-fg) 0%,
-    #e8e8e8 38%,
-    #bdbdbd 72%,
-    #8d8d8d 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+.brand-mark {
+  mix-blend-mode: normal;
+  filter: invert(1);
 }
 
-.brand-mark {
+.dark .brand-mark {
   mix-blend-mode: screen;
+  filter: none;
 }
 
 .command-glow {
   box-shadow: var(--shadow-command);
+}
+
+@keyframes brand-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes rise {
@@ -133,14 +205,10 @@
 .hero-item:nth-child(3) {
   animation-delay: calc(var(--motion-stagger) * 3);
 }
-.hero-item:nth-child(4) {
-  animation-delay: calc(var(--motion-stagger) * 4);
-}
-.hero-item:nth-child(5) {
-  animation-delay: calc(var(--motion-stagger) * 5);
-}
 
 @media (prefers-reduced-motion: reduce) {
+  .brand-wordmark,
+  .brand-tagline,
   .hero-item {
     opacity: 1;
     animation: none;
