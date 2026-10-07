@@ -2,7 +2,7 @@ import { i as __toESM } from "../_runtime.mjs";
 import { a as require_jsx_runtime, o as require_react } from "../_libs/@radix-ui/react-collection+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as mc } from "../_libs/auth0__auth0-spa-js.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/login-BB0ffLB3.js
+//#region node_modules/.nitro/vite/services/ssr/assets/login-ClEHRNv7.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 /** Public Auth0 SPA client used by grokbox. Not a secret. */
@@ -21,7 +21,8 @@ var viteEnv = {
 	"TSS_SERVER_FN_BASE": "/_serverFn/",
 	"VITE_AUTH0_CLIENT_ID": "titd12pdpLdyQo1SpSFhHEH2glDoeIZq",
 	"VITE_AUTH0_DOMAIN": "grokbox.us.auth0.com",
-	"VITE_AUTH_ENABLED": "false"
+	"VITE_AUTH_ENABLED": "false",
+	"VITE_DEV_SERVER_HOST": "0.0.0.0"
 };
 var AUTH0_DOMAIN = viteEnv.VITE_AUTH0_DOMAIN || "grokbox.us.auth0.com";
 var AUTH0_CLIENT_ID = viteEnv.VITE_AUTH0_CLIENT_ID || "titd12pdpLdyQo1SpSFhHEH2glDoeIZq";
@@ -50,16 +51,6 @@ function isAllowedReturnTo(value) {
 	if (url.pathname !== "/api/auth/callback") return false;
 	return BOX_HOSTS.has(url.hostname.toLowerCase());
 }
-/** HTTPS grokbox.org cannot POST to http://grokbox.local (Chrome insecure-form interstitial). Land on the box with the token in the fragment instead. */
-function boxReturnUrl(returnTo, idToken, boxState) {
-	if (!isAllowedReturnTo(returnTo) || !idToken || !boxState) return null;
-	const url = new URL(returnTo);
-	url.hash = new URLSearchParams({
-		id_token: idToken,
-		state: boxState
-	}).toString();
-	return url.toString();
-}
 function loginIntentFromSearch(search) {
 	const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
 	if (params.has("code")) return { kind: "callback" };
@@ -72,6 +63,21 @@ function loginIntentFromSearch(search) {
 		boxState
 	};
 	return { kind: "invalid" };
+}
+function postForm(action, fields) {
+	const form = document.createElement("form");
+	form.method = "POST";
+	form.action = action;
+	form.acceptCharset = "UTF-8";
+	for (const [name, value] of Object.entries(fields)) {
+		const input = document.createElement("input");
+		input.type = "hidden";
+		input.name = name;
+		input.value = value;
+		form.appendChild(input);
+	}
+	document.body.appendChild(form);
+	form.submit();
 }
 function BoxAuthJumpPage() {
 	const [message, setMessage] = (0, import_react.useState)("Signing in…");
@@ -106,9 +112,12 @@ function BoxAuthJumpPage() {
 				const appState = (await client.handleRedirectCallback()).appState;
 				const token = (await client.getIdTokenClaims())?.__raw;
 				window.history.replaceState({}, "", window.location.pathname);
-				const dest = boxReturnUrl(appState && "returnTo" in appState ? appState.returnTo : void 0, token, appState && "boxState" in appState ? appState.boxState : void 0);
-				if (dest) {
-					window.location.replace(dest);
+				const boxState = appState && "boxState" in appState ? appState : void 0;
+				if (token && boxState && isAllowedReturnTo(boxState.returnTo) && boxState.boxState) {
+					postForm(boxState.returnTo, {
+						id_token: token,
+						state: boxState.boxState
+					});
 					return;
 				}
 				if (token) {
